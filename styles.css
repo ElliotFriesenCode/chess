@@ -1,0 +1,106 @@
+:root{
+    --border-color: white;
+    --bg-color: #3a4246;
+    --ibg-color: #BFB8AD;
+    --black: #8F754F;
+    --white: #D7B377;
+    --grid-count: 5;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+   
+}
+.holder{
+    width: 50vw;
+    height: 95vh;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-count), 1fr);
+    justify-items: center;
+    align-items: center;
+    background-color: var(--ibg-color);
+   
+}
+.side{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    width: 25vw;
+    height: 100vh;
+    margin-left: 25px;
+}
+
+#bb{
+    text-align: end;
+}
+h1{
+    color: var(--black);
+    width: 20vw;
+}
+#w{
+    color: var(--white);
+    
+}
+.main{
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: var(--bg-color);
+
+}
+.box-white{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box-selected{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box-black{
+    
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: var(--black);
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    
+}
+.box:hover{
+    background-color: wheat;
+}
+.box-selected:hover{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: rgb(196, 193, 193);
+}
+.chess{
+    width: calc(50vw/9);
+    height: calc(50vw/9);
+}
+.chess_pawn{
+    width: calc(50vw/15);
+    height: calc(50vw/12);
+}
+.chess_knight{
+    width: calc(50vw/11);
+    height: calc(50vw/11);
+}
+.chess_bishop{
+    width: calc(50vw/11);
+    height: calc(50vw/11);
+}

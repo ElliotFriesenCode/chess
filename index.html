@@ -1,0 +1,920 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="side" id="left">
+                <h1 id="bb"></h1>
+                <h1 id="ww"></h1>
+            </div>
+        <div class="holder" id="holder">     
+        </div>
+        <div class="side" id="right">
+            <h1 id="b"></h1>
+            <h1 id="w"></h1>
+        </div>
+    </div>
+    <script>
+        let rook63Moved = false;
+        let king60Moved = false;
+        let rook56Moved = false;
+        let rook7Moved = false;
+        let rook0Moved = false;
+        let king4Moved = false;
+        let prevMove;
+        let chessGrid = [[['w', 0, 'br'], ['b', 1, 'bk'], ['w', 2, 'bb'], ['b', 3, 'bq'], ['w', 4, 'bki'], ['b', 5, 'bb'], ['w', 6, 'bk'], ['b', 7, 'br']],
+                         [['b', 8, 'bp'], ['w', 9, 'bp'], ['b', 10, 'bp'], ['w', 11, 'bp'], ['b', 12, 'bp'], ['w', 13, 'bp'], ['b', 14, 'bp'], ['w', 15, 'bp']],
+                         [['w', 16, ''], ['b', 17, ''], ['w', 18, ''], ['b', 19, ''], ['w', 20, ''], ['b', 21, ''], ['w', 22, ''], ['b', 23, '']],
+                         [['b', 24, ''], ['w', 25, ''], ['b', 26, ''], ['w', 27, ''], ['b', 28, ''], ['w', 29, ''], ['b', 30, ''], ['w', 31, '']],
+                         [['w', 32, ''], ['b', 33, ''], ['w', 34, ''], ['b', 35, ''], ['w', 36, ''], ['b', 37, ''], ['w', 38, ''], ['b', 39, '']],
+                         [['b', 40, ''], ['w', 41, ''], ['b', 42, ''], ['w', 43, ''], ['b', 44, ''], ['w', 45, ''], ['b', 46, ''], ['w', 47, '']],
+                         [['w', 48, 'wp'], ['b', 49, 'wp'], ['w', 50, 'wp'], ['b', 51, 'wp'], ['w', 52, 'wp'], ['b', 53, 'wp'], ['w', 54, 'wp'], ['b', 55, 'wp']],
+                         [['b', 56, 'wr'], ['w', 57, 'wk'], ['b', 58, 'wb'], ['w', 59, 'wq'], ['b', 60, 'wki'], ['w', 61, 'wb'], ['b', 62, 'wk'], ['w', 63, 'wr']]]
+        let gridNum = 64;
+        let rowCount = 8;
+        
+        createGrid();
+       
+       
+        function createGrid(){
+            document.getElementById("holder").style.setProperty("--grid-count", rowCount);
+            for(let i = 0; i < chessGrid.length; i++){
+                for(let x = 0; x < chessGrid[i].length; x++){
+                let box = document.createElement("div");
+                if(chessGrid[i][x][0] === 'w'){
+                    box.classList.add("box-white");
+                    box.classList.add("box");
+                   
+                }
+                else{
+                    box.classList.add("box-black");
+                    box.classList.add("box");   
+                }
+                var img = document.createElement("img");
+                if(chessGrid[i][x][2] == 'wq'){     
+                         img.src = "chess_pieces/white/wq.png";
+                         img.classList.add("chess");
+                    }
+                    else if(chessGrid[i][x][2] == 'wp'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/white/wp.png";
+                         img.classList.add("chess_pawn");  
+                    }
+                    else if(chessGrid[i][x][2] == 'wki'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/white/wki.png";
+                         img.classList.add("chess");  
+                    }
+                    else if(chessGrid[i][x][2] == 'wb'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/white/wb.png";
+                         img.classList.add("chess");  
+                    }
+                    else if(chessGrid[i][x][2] == 'wk'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/white/wk.png";
+                         img.classList.add("chess_knight");  
+                    }
+                    else if(chessGrid[i][x][2] == 'wr'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/white/wr.png";
+                         img.classList.add("chess");  
+                    }
+                    else  if(chessGrid[i][x][2] == 'bq'){     
+                         img.src = "chess_pieces/black/bq.png";
+                         img.classList.add("chess");
+                    }
+                    else if(chessGrid[i][x][2] == 'bp'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/black/bp.png";
+                         img.classList.add("chess");  
+                    }
+                    else if(chessGrid[i][x][2] == 'bki'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/black/bki.png";
+                         img.classList.add("chess");  
+                    }
+                    else if(chessGrid[i][x][2] == 'bb'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/black/bb.png";
+                         img.classList.add("chess_bishop");  
+                    }
+                    else if(chessGrid[i][x][2] == 'bk'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/black/bk.png";
+                         img.classList.add("chess_knight");  
+                    }
+                    else if(chessGrid[i][x][2] == 'br'){
+                         var img = document.createElement("img");
+                         img.src = "chess_pieces/black/br.png";
+                         img.classList.add("chess");  
+                    }
+                    if(img.src){
+                    box.appendChild(img);
+                    }
+                    box.addEventListener("click", function(){
+                    alertId(this.id);
+                 });
+                box.id = chessGrid[i][x][1];
+                document.getElementById("holder").appendChild(box);
+                }
+            }
+        }
+        let prev = -1;
+        let currPiece = '';
+        function inCheck(color, grid, futureChecking){
+            let check = false;
+            if(color === 'w'){
+                let kingId;
+                for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][2] === 'wki'){
+                       kingId = grid[i][x][1];
+                    }
+                }
+            }
+                for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][2].charAt(0) === 'b'){
+                        if(checkLegalMove(grid[i][x][1], kingId, grid[i][x][2], grid, true)){
+                            check = true;
+                            if(!futureChecking){
+                            document.getElementById("w").textContent = 'Check';
+                            }
+                        }
+                    }
+                }
+            }
+            if(!check){
+                if(!futureChecking){
+                document.getElementById("w").textContent = '';
+                }
+            }
+        }
+        else{
+            let kingId;
+                for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][2] === 'bki'){
+                       kingId = grid[i][x][1];
+                    }
+                }
+            }
+                for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(chessGrid[i][x][2].charAt(0) === 'w'){
+                        if(checkLegalMove(grid[i][x][1], kingId, grid[i][x][2], grid, true)){
+                            check = true;
+                            if(!futureChecking){
+                            document.getElementById("b").textContent = 'Check';
+                            }
+                        }
+                    }
+                }
+            }
+            if(!check){
+                if(!futureChecking){
+                document.getElementById("b").textContent = '';
+                }
+            }
+        }
+        return check;
+    }
+        function alertId(e){ 
+           
+            let piece;
+                 for(let i = 0; i < chessGrid.length; i++){
+                for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] == parseInt(e)){
+                        piece = chessGrid[i][x][2];
+                    }
+                }
+            }   
+            if(piece !== '' && prev < 0){
+                document.getElementById(e).classList.remove("box-white");
+                document.getElementById(e).classList.remove("box-black");
+                document.getElementById(e).classList.add("box-selected");
+                let color;
+                if(prev > -1){
+                    
+                    for(let i = 0; i < chessGrid.length; i++){
+                      for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] == prev){
+                        color = chessGrid[i][x][0];
+                        currPiece = chessGrid[i][x][2];
+                       // alert(currPiece);
+                    }
+                }
+            }   
+            document.getElementById(prev).classList.remove("box-selected");
+                if(color === 'w'){
+                    document.getElementById(prev).classList.add("box-white");
+                }
+                else{
+                    document.getElementById(prev).classList.add("box-black");
+                }
+                prev = parseInt(e);
+                }
+                else{
+
+                
+                prev = parseInt(e);
+                for(let i = 0; i < chessGrid.length; i++){
+                      for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] == prev){
+                        currPiece = chessGrid[i][x][2];
+                       // alert(currPiece);
+                    }
+                }
+            }
+                }
+                
+            }
+            
+            else{
+               
+                if(currPiece !== ''){
+                if(parseInt(e) !== prev){
+                  
+                if(checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false)){
+                  
+                 makeMove(prev, parseInt(e), currPiece);
+                 if(currPiece === 'wr' && prev === 63){
+                    rook63Moved = true;
+                 }
+                 if(currPiece === 'wr' && prev === 56){
+                    rook56Moved = true;
+                 }
+                 if(currPiece === 'br' && prev === 7){
+                    rook7Moved = true;
+                 }
+                 if(currPiece === 'br' && prev === 0){
+                    rook0Moved = true;
+                 }
+                 if(currPiece === 'wki'){
+                    king60Moved = true;
+                 }
+                 if(currPiece === 'bki'){
+                    king4Moved = true;
+                 }
+                 prevMove = [prev, parseInt(e), currPiece];
+                 
+                }
+                }
+                currPiece = '';
+                let color;
+                for(let i = 0; i < chessGrid.length; i++){
+                      for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] == prev){
+                        color = chessGrid[i][x][0];
+                       
+                       // alert(currPiece);
+                    }
+                }
+            }
+                document.getElementById(prev).classList.remove("box-selected");
+                if(color === 'w'){
+                    document.getElementById(prev).classList.add("box-white");
+                }
+                else{
+                    document.getElementById(prev).classList.add("box-black");
+                }
+                prev = -1;
+            }
+
+            }
+           
+           
+           
+        }
+       function checkLegalMove(prevId, newId, piece, grid, checking){
+        let legal = true;
+        let piece2 = '';
+        let p = getPiece(piece);
+        let c = piece.charAt(0);
+        let white = false;
+        let rN;
+        let rP;
+        let cN;
+        let cP;
+        let prevSquareColor = '';
+        let newSquareColor = '';
+        let iValue;
+        let xValue;
+       
+        for(let i = 0; i < grid.length; i++){
+                      for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][1] == newId){
+                   
+                       piece2 = grid[i][x][2];
+                      
+                       rN = i;
+                       cN = x;
+                       newSquareColor = grid[i][x][0];
+                       // alert(currPiece);
+                    }
+                    else if(grid[i][x][1] == prevId){
+                       
+                        rP = i;
+                        cP = x;
+                        prevSquareColor = grid[i][x][0];
+                        iValue = i;
+                        xValue = x;
+                    }
+                }
+            }
+          
+        if(c === 'w'){
+            white = true;
+        }
+        let queenLegal1 = true;
+        let queenLegal2 = true;
+        if(p === 'pawn'){
+            if(!white){
+               if(prevId > newId){
+               
+                legal = false;
+               }
+               if((newId - prevId) % 8 !== 0){
+                if(piece2 !== ''){
+                    if(newId - prevId !== 7 && newId - prevId !== 9){
+                        legal = false;
+                    }
+                }
+                else{
+                    legal = false;
+                }
+               
+               }
+               else{
+                if(piece2 !== ''){
+                   
+                        legal = false;
+                    
+                }
+               }
+               if(prevId > 7 && prevId < 15){
+                if(newId > 31){
+                    
+                    legal = false;
+                }
+                
+               }
+               if(prevId > 15){
+                 if(newId - prevId !== 8){
+                    if(piece2 !== ''){
+                    if(newId - prevId !== 7 && newId - prevId !== 9){
+                        
+                        legal = false;
+                    }
+                }
+                else{
+                    legal = false;
+                }
+                 }
+                 else{
+                if(piece2 !== ''){
+                   
+                        legal = false;
+                    
+                }
+               }
+               }
+               if(prevMove){
+              if(prevMove[2] === 'wp'){
+               
+                if(prevMove[0] - prevMove[1] === 16){
+                    if(prevId === prevMove[1] + 1 || prevId === prevMove[1] - 1){
+                       if(newId === prevMove[1] + 8){
+                         legal = true;
+                         deletePiece(prevMove[1]);
+                       }
+                    }
+                    
+                }
+              }
+            }
+              
+            }
+            else{
+                if(prevId < newId){
+                    legal = false;
+                }
+                if((prevId - newId) % 8 !== 0){
+                    if(piece2 !== ''){
+                    if(prevId - newId !== 7 && prevId - newId !== 9){
+                        legal = false;
+                    }
+                }
+                else{
+                    legal = false;
+                }
+               
+               }
+               else{
+                if(piece2 !== ''){
+                   
+                        legal = false;
+                    
+                }
+               }
+               if(prevId > 47 && prevId < 56){
+                if(newId < 32){
+                    legal = false;
+                }
+               }
+               if(prevId < 47){
+                if(prevId - newId !== 8){
+                    if(piece2 !== ''){
+                    if(prevId - newId !== 7 && prevId - newId !== 9){
+                      
+                        legal = false;
+                    }
+                }
+                else{
+                    legal = false;
+                }
+                 }
+                 else{
+                if(piece2 !== ''){
+                   
+                        legal = false;
+                    
+                }
+               }
+               }
+               if(prevMove){
+              if(prevMove[2] === 'bp'){
+               
+                if(prevMove[1] - prevMove[0] === 16){
+                    if(prevId === prevMove[1] + 1 || prevId === prevMove[1] - 1){
+                       if(newId === prevMove[1] - 8){
+                         legal = true;
+                         deletePiece(prevMove[1]);
+                       }
+                    }
+                    
+                }
+              }
+            }
+            }
+        }
+        else if(p === 'king'){
+           
+            if(newId !== prevId + 1 && newId !== prevId - 1 && newId - prevId !== 8 && newId - prevId !== -8 && newId - prevId !== 9 && newId - prevId !== 7 && prevId - newId !== 9 && prevId - newId !== 7){
+              
+                legal = false;
+            }
+            if(white){
+            if(p === 'king' && piece2 === 'wr'){
+                if(grid[rN][cN][1] === 63){   
+                    if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === ''){
+                        if(!king60Moved && !rook63Moved){
+                        makeMove(60, 62, 'wki');
+                        makeMove(63, 61, 'wr');
+                        }
+                    }
+                }
+            }
+             if(p === 'king' && piece2 === 'wr'){
+                if(grid[rN][cN][1] === 56){   
+                    if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === '' && grid[rN][cN + 3][2] === ''){
+                        if(!king60Moved && !rook56Moved){
+                        makeMove(60, 58, 'wki');
+                        makeMove(56, 59, 'wr');
+                        }
+                    }
+                }
+            }
+            }
+            else{
+               
+            if(p === 'king' && piece2 === 'br'){
+                if(grid[rN][cN][1] === 7){   
+                    if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === ''){
+                        if(!king4Moved && !rook7Moved){
+                        makeMove(4, 6, 'bki');
+                        makeMove(7, 5, 'br');
+                        }
+                    }
+                }
+            }
+             if(p === 'king' && piece2 === 'br'){
+                if(grid[rN][cN][1] === 0){   
+                    if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === '' && grid[rN][cN + 3][2] === ''){
+                        if(!king4Moved && !rook0Moved){
+                        makeMove(4, 2, 'bki');
+                        makeMove(0, 3, 'br');
+                        }
+                    }
+                }
+            }
+            
+            }
+        }    
+        if(p === 'rook' || p === 'queen'){
+           
+           if(rN !== rP && cN !== cP){
+           if(p === 'queen'){
+            queenLegal1 = false;
+           }
+           else{
+            legal = false;
+           }
+           }
+           let vertPieces = [];
+           let horzPieces = [];
+           
+           for(let i = 0; i < grid.length; i++){
+            if(grid[i][cP][2] !== piece){
+                vertPieces.push([grid[i][cP][1], grid[i][cP][2]]);
+            }
+            if(grid[rP][i][2] !== piece){
+                horzPieces.push([grid[rP][i][1], grid[rP][i][2]]);
+            }
+        }
+            if(rN === rP){
+               
+                for(let i = 0; i < horzPieces.length; i++){
+                    
+                       if(horzPieces[i][1] !== ''){
+                        if((horzPieces[i][0] < prevId && horzPieces[i][0] > newId) || (horzPieces[i][0] > prevId && horzPieces[i][0] < newId)){
+                            if(p === 'queen'){
+                                 queenLegal1 = false;
+                             }
+                          else{
+                             legal = false;
+                         }
+                        } 
+                       }
+                    
+                }
+            }
+            else{
+                for(let i = 0; i < vertPieces.length; i++){
+                    
+                    if(vertPieces[i][1] !== ''){
+                     if((vertPieces[i][0] < prevId && vertPieces[i][0] > newId) || (vertPieces[i][0] > prevId && vertPieces[i][0] < newId)){
+                        if(p === 'queen'){
+                             queenLegal1 = false;
+                             }
+                          else{
+                         legal = false;
+                          }
+                     } 
+                    }
+                 
+             }
+            }
+           
+
+            if(white){
+            if(p === 'rook' && piece2 === 'wki'){
+                if(grid[rN][cN][1] === 60){   
+                    if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === ''){
+                        if(!king60Moved && !rook63Moved){
+                        makeMove(60, 62, 'wki');
+                        makeMove(63, 61, 'wr');
+                        }
+                    }
+                }
+            }
+             if(p === 'rook' && piece2 === 'wki'){
+                if(grid[rN][cN][1] === 60){   
+                    if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === '' && grid[rN][cN - 3][2] === ''){
+                        if(!king60Moved && !rook56Moved){
+                        makeMove(60, 58, 'wki');
+                        makeMove(56, 59, 'wr');
+                        }
+                    }
+                }
+            }
+            }
+            else{
+               
+               if(p === 'rook' && piece2 === 'bki'){
+                   if(grid[rN][cN][1] === 4){   
+                       if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === ''){
+                           if(!king4Moved && !rook7Moved){
+                           makeMove(4, 6, 'bki');
+                           makeMove(7, 5, 'br');
+                           }
+                       }
+                   }
+               }
+                if(p === 'rook' && piece2 === 'bki'){
+                   if(grid[rN][cN][1] === 4){   
+                       if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === '' && grid[rN][cN - 3][2] === ''){
+                           if(!king4Moved && !rook0Moved){
+                           makeMove(4, 2, 'bki');
+                           makeMove(0, 3, 'br');
+                           }
+                       }
+                   }
+               }
+               
+               }
+            
+       }   
+        if(p === 'bishop' || p === 'queen'){
+            if(prevSquareColor !== newSquareColor){
+                if(p === 'queen'){
+                    queenLegal2 = false;
+                    
+             }
+             else{
+            legal = false;
+           }
+            }
+            if(Math.abs(rN - rP) !== Math.abs(cN - cP)){
+                
+                if(p === 'queen'){
+                    queenLegal2 = false;
+             }
+             else{
+            legal = false;
+           }
+            }
+            let pieceArray = [];
+            if(rN > rP && cN > cP){
+                let x  = cP;
+                for(let i = rP; i < rN; i++){  
+                        if(x < 8 && grid[i][x][2] !== ''){
+                            
+                            if(grid[i][x][1] > prevId && grid[i][x][1] < newId){
+                                if(p === 'queen'){
+                    queenLegal2 = false;
+             }
+             else{
+            legal = false;
+           }
+                            }
+                        }
+                      x++;
+                    }  
+            }
+            else if(rN < rP && cN > cP){
+                let x  = cP;
+                for(let i = rP; i > 0; i--){  
+                        if(x < 8 && grid[i][x][2] !== ''){
+                            
+                            if(grid[i][x][1] < prevId && grid[i][x][1] > newId){
+                                if(p === 'queen'){
+                    queenLegal2 = false;
+             }
+             else{
+            legal = false;
+           }
+                            }
+                        }
+                      x++;
+                    }  
+            }
+            else if(rN < rP && cN < cP){
+                let x  = cP;
+                for(let i = rP; i > 0; i--){  
+                        if(x > 0 && grid[i][x][2] !== ''){
+                            
+                            if(grid[i][x][1] < prevId && grid[i][x][1] > newId){
+                                if(p === 'queen'){
+                    queenLegal2 = false;
+             }
+             else{
+            legal = false;
+           }
+                            }
+                        }
+                      x--;
+                    }  
+            }
+            if(rN > rP && cN < cP){
+                let x  = cP;
+                for(let i = rP; i < rN; i++){  
+                        if(x > 0 && grid[i][x][2] !== ''){
+                            
+                            if(grid[i][x][1] > prevId && grid[i][x][1] < newId){
+                                if(p === 'queen'){
+                    queenLegal2 = false;
+             }
+             else{
+            legal = false;
+           }
+                            }
+                        }
+                      x--;
+                    }  
+            }
+            
+           
+        }
+        if(p === 'queen'){
+            
+            if(!queenLegal1 && !queenLegal2){
+                legal = false;
+            }
+        }
+        if(p === 'knight'){
+            if((rN !== rP - 2 || cN !== cP + 1) && (rN !== rP - 2 || cN !== cP - 1) && (rN !== rP + 2 || cN !== cP -1) && (rN !== rP + 2 || cN !== cP + 1) && (rN !== rP - 1 || cN !== cP + 2) && (rN !== rP + 1 || cN !== cP - 2) && (rN !== rP + 1 || cN !== cP + 2) && (rN !== rP - 1 || cN !== cP - 2) && (rN !== rP - 1 || cN !== cP + 2)){
+                legal = false;
+            }
+            
+        }
+       
+        if(piece2 !== '' && piece2.charAt(0) === piece.charAt(0)){
+                legal = false;
+            }
+       if(!checking && legal){
+            if(futureCheck(prevId, newId, piece, chessGrid)){
+            legal = false;
+        } 
+    }
+            return legal;
+       }
+       function futureCheck(pr, n, p, grid){
+        let g = grid.map((subArray) => {
+  return subArray.map((subSubArray) => {
+    return subSubArray.slice();
+  });
+});
+        for(let i = 0; i < g.length; i++){
+            for(let x = 0; x < g[0].length; x++){
+                if(g[i][x][1] === pr){
+                    g[i][x][2] = '';
+                }
+                if(g[i][x][1] === n){
+                    g[i][x][2] = p;
+                }
+            }
+           
+        } 
+        if(inCheck(p.charAt(0), g, true)){
+            console.log("t");
+                return true;
+            }
+          
+       console.log(chessGrid);
+       console.log(g);
+        return false;
+       }
+       function getPiece(piece){
+        let fullPiece = '';
+        if(piece.substring(1) === 'p'){
+            fullPiece = "pawn";
+        }
+        else if(piece.substring(1) === 'k'){
+             fullPiece = "knight";
+        }
+        else if(piece.substring(1) === 'b'){
+            fullPiece = "bishop";
+        }
+        else if(piece.substring(1) === 'r'){
+            fullPiece = "rook";
+        }
+        else if(piece.substring(1) === 'ki'){
+            fullPiece = "king";
+        }
+        if(piece.substring(1) === 'q'){
+             fullPiece = "queen";
+        }
+        return fullPiece;
+       }
+     function deletePiece(id){
+        for(let i = 0; i < chessGrid.length; i++){
+                for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] === id){
+                        chessGrid[i][x][2] = '';
+                        var child = document.getElementById(id).lastElementChild; 
+                         while (child) {
+                              document.getElementById(id).removeChild(child);
+                              child =  document.getElementById(id).lastElementChild;
+                            }
+                    }
+                }
+            }
+     }
+    
+       function makeMove(prevId, newId, piece){
+        
+        let white = false;
+        if(piece.charAt(0) === 'w'){
+            white = true;
+        }
+        for(let i = 0; i < chessGrid.length; i++){
+                for(let x = 0; x < chessGrid[i].length; x++){
+                    if(chessGrid[i][x][1] === prevId){
+                        chessGrid[i][x][2] = '';
+                         var child = document.getElementById(prevId).lastElementChild; 
+                         while (child) {
+                              document.getElementById(prevId).removeChild(child);
+                              child =  document.getElementById(prevId).lastElementChild;
+                            }
+
+                    }
+                    else if(chessGrid[i][x][1] === newId){
+                        chessGrid[i][x][2] = piece;
+                        var child = document.getElementById(newId).lastElementChild; 
+                         while (child) {
+                              document.getElementById(newId).removeChild(child);
+                              child =  document.getElementById(newId).lastElementChild;
+                            }
+                            var img = document.createElement("img");
+                            if(white){ 
+                                img.src = "chess_pieces/white/" + piece + ".png";
+                            }
+                            else{
+                                img.src = "chess_pieces/black/" + piece + ".png";
+                            }
+                           
+                            if(piece === 'bk' || piece === 'wk'){
+                                img.classList.add("chess_knight"); 
+                            } 
+                            else if(piece === 'wp'){
+                                img.classList.add("chess_pawn"); 
+                            } 
+                            else if(piece === 'bb'){
+                                img.classList.add("chess_bishop"); 
+                            } 
+                            else{
+                                img.classList.add("chess"); 
+                            }
+                                document.getElementById(newId).appendChild(img);
+                    }
+                }
+            }
+            inCheck('w', chessGrid, false);
+            inCheck('b', chessGrid, false);
+            if(inCheck('w', chessGrid, false)){
+             //  inCheckMate('w', chessGrid);
+            }
+            if(inCheck('b', chessGrid)){
+              // inCheckMate('b', chessGrid);
+            }
+           
+       }
+       function inCheckMate(color, grid){
+            let checkMate = true;
+            if(color === 'w'){
+               
+                for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    for(let z = 0; z < grid.length; z++){
+                        for(let y = 0; y < grid[z].length; y++){
+                        if(grid[i][x][2].charAt(0) === 'w'){
+                         if(!futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
+                            
+                            checkMate = false;
+                            document.getElementById("ww").textContent = '';
+                        }
+                    }
+                        }
+                    }
+                       
+                    
+                }
+            }
+            if(checkMate){
+                document.getElementById("ww").textContent = 'Checkmate';
+            }
+            console.log(checkMate);
+        }
+        else{
+           
+            for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][2] !== ''){
+                    for(let z = 0; z < grid.length; z++){
+                        for(let y = 0; y < grid[z].length; y++){
+                            if(grid[i][x][2].charAt(0) === 'b'){
+                            
+                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
+                                alert(grid[i][x][1] + ' ' + grid[z][y][1]);
+                            }
+                           
+                            checkMate = false;
+                            document.getElementById("bb").textContent = '';
+                        
+                    }
+                    }
+                }
+            }
+                }
+            }
+            
+            if(checkMate){  
+                document.getElementById("bb").textContent = 'Checkmate';
+                
+            }
+            console.log(checkMate);
+        }
+        }
+        
+    
+    </script>
+    </body>
+</html>
