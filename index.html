@@ -241,13 +241,16 @@
                 else{
                     if(currPiece.charAt(0) === 'b'){
                        move = true;
-                       makeRandomMove("b", chessGrid);
+                       
                     }
                 }
                 if(move && checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false)){
                 
                  makeMove(prev, parseInt(e), currPiece);
                  whiteTurn = !whiteTurn;
+                    if(!whiteTurn){
+                        makeRandomMove("b", chessGrid);
+                    }
                  if(currPiece === 'wr' && prev === 63){
                     rook63Moved = true;
                  }
