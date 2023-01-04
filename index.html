@@ -28,6 +28,8 @@
         let rook0Moved = false;
         let king4Moved = false;
         let prevMove;
+        let bCheck = false;
+        let wCheck = false;
         let chessGrid = [[['w', 0, 'br'], ['b', 1, 'bk'], ['w', 2, 'bb'], ['b', 3, 'bq'], ['w', 4, 'bki'], ['b', 5, 'bb'], ['w', 6, 'bk'], ['b', 7, 'br']],
                          [['b', 8, 'bp'], ['w', 9, 'bp'], ['b', 10, 'bp'], ['w', 11, 'bp'], ['b', 12, 'bp'], ['w', 13, 'bp'], ['b', 14, 'bp'], ['w', 15, 'bp']],
                          [['w', 16, ''], ['b', 17, ''], ['w', 18, ''], ['b', 19, ''], ['w', 20, ''], ['b', 21, ''], ['w', 22, ''], ['b', 23, '']],
@@ -144,18 +146,12 @@
                     if(grid[i][x][2].charAt(0) === 'b'){
                         if(checkLegalMove(grid[i][x][1], kingId, grid[i][x][2], grid, true)){
                             check = true;
-                            if(!futureChecking){
-                            document.getElementById("w").textContent = 'Check';
-                            }
+                            wCheck = true;
                         }
                     }
                 }
             }
-            if(!check){
-                if(!futureChecking){
-                document.getElementById("w").textContent = '';
-                }
-            }
+           
         }
         else{
             let kingId;
@@ -171,18 +167,12 @@
                     if(chessGrid[i][x][2].charAt(0) === 'w'){
                         if(checkLegalMove(grid[i][x][1], kingId, grid[i][x][2], grid, true)){
                             check = true;
-                            if(!futureChecking){
-                            document.getElementById("b").textContent = 'Check';
-                            }
+                            bCheck = true;
                         }
                     }
                 }
             }
-            if(!check){
-                if(!futureChecking){
-                document.getElementById("b").textContent = '';
-                }
-            }
+          
         }
         return check;
     }
@@ -306,8 +296,7 @@
         let prevSquareColor = '';
         let newSquareColor = '';
         let iValue;
-        let xValue;
-       
+        let xValue;  
         for(let i = 0; i < grid.length; i++){
                       for(let x = 0; x < grid[i].length; x++){
                     if(grid[i][x][1] == newId){
@@ -472,6 +461,7 @@
                 legal = false;
             }
             if(white){
+                if(!wCheck){
             if(p === 'king' && piece2 === 'wr'){
                 if(grid[rN][cN][1] === 63){   
                     if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === ''){
@@ -492,9 +482,10 @@
                     }
                 }
             }
+        }
             }
             else{
-               
+                if(!bCheck){
             if(p === 'king' && piece2 === 'br'){
                 if(grid[rN][cN][1] === 7){   
                     if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === ''){
@@ -515,7 +506,7 @@
                     }
                 }
             }
-            
+        }
             }
         }    
         if(p === 'rook' || p === 'queen'){
@@ -575,6 +566,7 @@
            
 
             if(white){
+                if(!wCheck){
             if(p === 'rook' && piece2 === 'wki'){
                 if(grid[rN][cN][1] === 60){   
                     if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === ''){
@@ -596,8 +588,9 @@
                 }
             }
             }
+        }
             else{
-               
+                if(!bCheck){
                if(p === 'rook' && piece2 === 'bki'){
                    if(grid[rN][cN][1] === 4){   
                        if(grid[rN][cN + 1][2] === '' && grid[rN][cN + 2][2] === ''){
@@ -620,6 +613,7 @@
                }
                
                }
+            }
             
        }   
         if(p === 'bishop' || p === 'queen'){
@@ -828,7 +822,7 @@
                                 img.src = piece + ".png";
                             }
                             else{
-                                img.src =  piece + ".png";
+                                img.src = piece + ".png";
                             }
                            
                             if(piece === 'bk' || piece === 'wk'){
@@ -850,10 +844,28 @@
             inCheck('w', chessGrid, false);
             inCheck('b', chessGrid, false);
             if(inCheck('w', chessGrid, false)){
-             //  inCheckMate('w', chessGrid);
+              if(inCheckMate('w', chessGrid)){
+                document.getElementById("w").textContent = 'Checkmate';
+              }
+              else{
+                document.getElementById("w").textContent = 'Check';
+              }
+            }
+            else{
+                document.getElementById("w").textContent = '';
+                wCheck = false;
             }
             if(inCheck('b', chessGrid)){
-              // inCheckMate('b', chessGrid);
+               if(inCheckMate('b', chessGrid)){
+                document.getElementById("b").textContent = 'Checkmate';
+               }
+               else{
+                document.getElementById("b").textContent = 'Check';
+               }
+            }
+            else{
+                document.getElementById("b").textContent = '';
+                bCheck = false;
             }
            
        }
@@ -863,55 +875,53 @@
                
                 for(let i = 0; i < grid.length; i++){
                 for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][2] !== '' && grid[i][x][2].charAt(0) === 'w'){
                     for(let z = 0; z < grid.length; z++){
                         for(let y = 0; y < grid[z].length; y++){
-                        if(grid[i][x][2].charAt(0) === 'w'){
-                         if(!futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
-                            
-                            checkMate = false;
-                            document.getElementById("ww").textContent = '';
+                       
+                            if(grid[i][x][1] !== grid[z][y][1]){
+                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
+                                checkMate = false;
+                                
+                            }
                         }
-                    }
+                        }
                         }
                     }
                        
                     
                 }
             }
-            if(checkMate){
-                document.getElementById("ww").textContent = 'Checkmate';
-            }
-            console.log(checkMate);
+           
+            
         }
         else{
            
             for(let i = 0; i < grid.length; i++){
                 for(let x = 0; x < grid[i].length; x++){
-                    if(grid[i][x][2] !== ''){
+                    if(grid[i][x][2] !== '' && grid[i][x][2].charAt(0) === 'b'){
                     for(let z = 0; z < grid.length; z++){
                         for(let y = 0; y < grid[z].length; y++){
-                            if(grid[i][x][2].charAt(0) === 'b'){
-                            
-                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
-                                alert(grid[i][x][1] + ' ' + grid[z][y][1]);
-                            }
                            
-                            checkMate = false;
-                            document.getElementById("bb").textContent = '';
+                            if(grid[i][x][1] !== grid[z][y][1]){
+                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
+                                checkMate = false;
+                               
+                            }
+                        }
+                           
                         
-                    }
+                    
                     }
                 }
             }
                 }
             }
             
-            if(checkMate){  
-                document.getElementById("bb").textContent = 'Checkmate';
-                
-            }
+           
             console.log(checkMate);
         }
+        return checkMate;
         }
         
     
