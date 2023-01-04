@@ -981,6 +981,7 @@
                             if(grid[i][x][1] !== randId){
                             if(checkLegalMove(randId, grid[i][x][1], piece, grid, true) && !futureCheck(randId, grid[i][x][1], piece, grid)){
                                makeMove(randId, grid[i][x][1], piece);
+                                whiteTurn = !whiteTurn
                                 notMove = false;
                             }
                                 else{
