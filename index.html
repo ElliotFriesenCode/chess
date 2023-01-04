@@ -10,8 +10,9 @@
     <body>
         <div class="main">
             <div class="side" id="left">
-                <h1 id="bb"></h1>
-                <h1 id="ww"></h1>
+                <!-- <h2>AI</h2>
+                <input type="checkbox" id="myCheck" onclick="aichange()">
+                -->
             </div>
         <div class="holder" id="holder">     
         </div>
@@ -40,7 +41,7 @@
                          [['b', 56, 'wr'], ['w', 57, 'wk'], ['b', 58, 'wb'], ['w', 59, 'wq'], ['b', 60, 'wki'], ['w', 61, 'wb'], ['b', 62, 'wk'], ['w', 63, 'wr']]]
         let gridNum = 64;
         let rowCount = 8;
-        
+        let whiteTurn = true;
         createGrid();
        
        
@@ -89,7 +90,7 @@
                          img.classList.add("chess");  
                     }
                     else  if(chessGrid[i][x][2] == 'bq'){     
-                         img.src = "bq.png";
+                         img.src = "chess_pieces/black/bq.png";
                          img.classList.add("chess");
                     }
                     else if(chessGrid[i][x][2] == 'bp'){
@@ -231,10 +232,21 @@
                
                 if(currPiece !== ''){
                 if(parseInt(e) !== prev){
-                  
-                if(checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false)){
-                  
+                    let move = false;
+                if(whiteTurn){
+                    if(currPiece.charAt(0) === 'w'){
+                       move = true;
+                    }
+                }
+                else{
+                    if(currPiece.charAt(0) === 'b'){
+                       move = true;
+                    }
+                }
+                if(move && checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false)){
+                
                  makeMove(prev, parseInt(e), currPiece);
+                 whiteTurn = !whiteTurn;
                  if(currPiece === 'wr' && prev === 63){
                     rook63Moved = true;
                  }
@@ -284,6 +296,7 @@
            
         }
        function checkLegalMove(prevId, newId, piece, grid, checking){
+        
         let legal = true;
         let piece2 = '';
         let p = getPiece(piece);
@@ -728,6 +741,7 @@
             legal = false;
         } 
     }
+   
             return legal;
        }
        function futureCheck(pr, n, p, grid){
@@ -819,10 +833,10 @@
                             }
                             var img = document.createElement("img");
                             if(white){ 
-                                img.src = piece + ".png";
+                                img.src =  piece + ".png";
                             }
                             else{
-                                img.src = piece + ".png";
+                                img.src =  piece + ".png";
                             }
                            
                             if(piece === 'bk' || piece === 'wk'){
@@ -924,7 +938,55 @@
         return checkMate;
         }
         
-    
+    function aichange(){
+        var checkBox = document.getElementById("myCheck");
+        if (checkBox.checked == true){
+           
+        } else {
+         text.style.display = "none";
+        }
+    }
+/*
+    function makeRandomMove(color){
+        let difColor = true;
+        let randId = Math.floor(Math.random() * 64);
+        while(difColor){
+            for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][1] === randId){
+                        if(grid[i][x][2].charAt(0) === color){
+                            difColor = false;
+                        }
+                        else{
+                            randId = Math.floor(Math.random() * 64);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+       
+        for(let i = 0; i < grid.length; i++){
+                for(let x = 0; x < grid[i].length; x++){
+                    if(grid[i][x][1] === randId){  
+                    for(let z = 0; z < grid.length; z++){
+                        for(let y = 0; y < grid[z].length; y++){
+                       
+                            if(grid[i][x][1] !== grid[z][y][1]){
+                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
+                               makeMove(grid[i][x][1], grid[z][y][1], grid[i][x][2]);
+                            }
+                            
+                        }
+                        }
+                        }
+                    }
+                       
+                    
+                }
+            }
+    }
+    */
     </script>
     </body>
 </html>
