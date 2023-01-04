@@ -980,7 +980,7 @@
                                
                             if(grid[i][x][1] !== randId){
                             if(checkLegalMove(randId, grid[i][x][1], piece, grid, true) && !futureCheck(randId, grid[i][x][1], piece, grid)){
-                               makeMove(randId, grid[z][y][1], piece);
+                               makeMove(randId, grid[i][x][1], piece);
                                 notMove = false;
                             }
                                 else{
