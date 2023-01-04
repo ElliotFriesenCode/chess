@@ -241,6 +241,7 @@
                 else{
                     if(currPiece.charAt(0) === 'b'){
                        move = true;
+                       makeRandomMove("b", chessGrid);
                     }
                 }
                 if(move && checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false)){
@@ -264,7 +265,7 @@
                  }
                  if(currPiece === 'bki'){
                     king4Moved = true;
-                 }
+                 }      
                  prevMove = [prev, parseInt(e), currPiece];
                  
                 }
@@ -946,15 +947,17 @@
          text.style.display = "none";
         }
     }
-/*
-    function makeRandomMove(color){
+
+    function makeRandomMove(color, grid){
         let difColor = true;
         let randId = Math.floor(Math.random() * 64);
+        let piece;
         while(difColor){
             for(let i = 0; i < grid.length; i++){
                 for(let x = 0; x < grid[i].length; x++){
                     if(grid[i][x][1] === randId){
                         if(grid[i][x][2].charAt(0) === color){
+                            piece = grid[i][x][2];
                             difColor = false;
                         }
                         else{
@@ -965,28 +968,33 @@
                 }
             }
         }
-       
+       let notMove = true;
+        let nextId = Math.floor(Math.random() * 64);
+        while(notMove){
         for(let i = 0; i < grid.length; i++){
                 for(let x = 0; x < grid[i].length; x++){
-                    if(grid[i][x][1] === randId){  
-                    for(let z = 0; z < grid.length; z++){
-                        for(let y = 0; y < grid[z].length; y++){
-                       
-                            if(grid[i][x][1] !== grid[z][y][1]){
-                            if(checkLegalMove(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid, true) && !futureCheck(grid[i][x][1], grid[z][y][1], grid[i][x][2], grid)){
-                               makeMove(grid[i][x][1], grid[z][y][1], grid[i][x][2]);
+                    if(grid[i][x][1] === nextId){  
+                               
+                            if(grid[i][x][1] !== randId){
+                            if(checkLegalMove(randId, grid[i][x][1], piece, grid, true) && !futureCheck(randId, grid[i][x][1], piece, grid)){
+                               makeMove(randId, grid[z][y][1], piece);
+                                notMove = false;
                             }
+                                else{
+                                     nextId = Math.floor(Math.random() * 64);
+                                     break;
+                                }
                             
                         }
-                        }
-                        }
+                        
                     }
                        
                     
                 }
             }
+        }
     }
-    */
+    
     </script>
     </body>
 </html>
