@@ -31,6 +31,9 @@
         let prevMove;
         let bCheck = false;
         let wCheck = false;
+      
+        
+       
         let chessGrid = [[['w', 0, 'br'], ['b', 1, 'bk'], ['w', 2, 'bb'], ['b', 3, 'bq'], ['w', 4, 'bki'], ['b', 5, 'bb'], ['w', 6, 'bk'], ['b', 7, 'br']],
                          [['b', 8, 'bp'], ['w', 9, 'bp'], ['b', 10, 'bp'], ['w', 11, 'bp'], ['b', 12, 'bp'], ['w', 13, 'bp'], ['b', 14, 'bp'], ['w', 15, 'bp']],
                          [['w', 16, ''], ['b', 17, ''], ['w', 18, ''], ['b', 19, ''], ['w', 20, ''], ['b', 21, ''], ['w', 22, ''], ['b', 23, '']],
@@ -42,6 +45,29 @@
         let gridNum = 64;
         let rowCount = 8;
         let whiteTurn = true;
+        let iArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
+        let dif = true;
+
+        let nId = iArray[Math.floor(Math.random() * iArray.length)];
+        while(dif){
+        for(let i = 0; i < iArray.length; i++){
+            if(iArray[i] === nId){
+                if(i === 0){
+                iArray.splice(0, 1);
+               
+                }
+                else{
+                    iArray.splice(i, i);
+                }
+                nId = iArray[Math.floor(Math.random() * iArray.length)];
+            }
+        }
+        if(iArray.length === 0){
+            dif = false;
+         //   alert("0");
+        }
+       
+    }
         createGrid();
        
        
@@ -61,7 +87,7 @@
                 }
                 var img = document.createElement("img");
                 if(chessGrid[i][x][2] == 'wq'){     
-                         img.src = "wq.png";
+                         img.src =  "wq.png";
                          img.classList.add("chess");
                     }
                     else if(chessGrid[i][x][2] == 'wp'){
@@ -71,7 +97,7 @@
                     }
                     else if(chessGrid[i][x][2] == 'wki'){
                          var img = document.createElement("img");
-                         img.src = "wki.png";
+                         img.src =  "wki.png";
                          img.classList.add("chess");  
                     }
                     else if(chessGrid[i][x][2] == 'wb'){
@@ -249,7 +275,7 @@
                  makeMove(prev, parseInt(e), currPiece);
                  whiteTurn = !whiteTurn;
                     if(!whiteTurn){
-                        makeRandomMove("b", chessGrid);
+                    //    makeRandomMove("b", chessGrid);
                     }
                  if(currPiece === 'wr' && prev === 63){
                     rook63Moved = true;
@@ -370,6 +396,16 @@
                     
                     legal = false;
                 }
+                for(let i = 0; i < grid.length; i++){
+                    for(let x = 0; x < grid[i].length; x++){
+                        if(grid[i][x][1] === prevId + 8){
+                            if(grid[i][x][2] !== ''){
+                                legal = false;
+                            }
+                        }
+                       
+                    }
+                }
                 
                }
                if(prevId > 15){
@@ -433,6 +469,16 @@
                if(prevId > 47 && prevId < 56){
                 if(newId < 32){
                     legal = false;
+                }
+                for(let i = 0; i < grid.length; i++){
+                    for(let x = 0; x < grid[i].length; x++){
+                        if(grid[i][x][1] === prevId - 8){
+                            if(grid[i][x][2] !== ''){
+                                legal = false;
+                            }
+                            
+                        }
+                    }
                 }
                }
                if(prevId < 47){
@@ -540,6 +586,8 @@
            let horzPieces = [];
            
            for(let i = 0; i < grid.length; i++){
+            
+           
             if(grid[i][cP][2] !== piece){
                 vertPieces.push([grid[i][cP][1], grid[i][cP][2]]);
             }
@@ -840,7 +888,7 @@
                                 img.src =  piece + ".png";
                             }
                             else{
-                                img.src =  piece + ".png";
+                                img.src =   piece + ".png";
                             }
                            
                             if(piece === 'bk' || piece === 'wk'){
@@ -950,8 +998,93 @@
          text.style.display = "none";
         }
     }
-
-    function makeRandomMove(color, grid){
+function makeRandomMove(color, grid){
+    // let uidArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
+     
+    let madeMove = false;
+    let idArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
+ //   while(!madeMove){
+     
+    let randId = idArray[Math.floor(Math.random() * idArray.length)];
+    let found = false;
+    let piece = '';
+    while(!found){
+    for(let i = 0; i < grid.length; i++){
+        for(let x = 0; x < grid[i].length; x++){
+            if(grid[i][x][2].charAt(0) === color && grid[i][x][2] !== '' && grid[i][x][1] === randId){
+                found = true;
+                piece = grid[i][x][2];
+               
+                
+            }
+            else if(grid[i][x][1] === randId && (grid[i][x][2].charAt(0) !== color || grid[i][x][2] === '')){
+                for(let z = 0; z < idArray.length; z++){
+                    if(idArray[z] === randId){
+                       
+                            idArray.splice(z, 1);
+                        
+                    }
+                }
+                randId = idArray[Math.floor(Math.random() * idArray.length)];
+            }
+        }
+    }
+    }
+    let newIdArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
+    let newId = newIdArray[Math.floor(Math.random() * newIdArray.length)];
+    let newFound = false;
+    //alert(randId + piece);
+    while(!newFound){
+    for(let i = 0; i < grid.length; i++){
+        for(let x = 0; x < grid[i].length; x++){
+            if(grid[i][x][1] === newId){
+                
+                 // if(piece !== undefined){  
+                alert(piece);
+                if(checkLegalMove(randId, newId, piece, chessGrid, false)){
+                    
+                                newFound = true;
+                                madeMove = true;
+                                makeMove(randId, newId, piece);
+                                whiteTurn = !whiteTurn;
+                                break;
+                                
+                 }
+                 else{
+                    
+                    for(let z = 0; z < newIdArray.length; z++){
+                       // alert("n" + newId);
+                       // alert(newIdArray[z]);
+                      if(newIdArray[z] === newId){
+                        
+                      
+                            newIdArray.splice(z, 1);
+                           
+                        
+                       
+                    }
+                }
+                
+              // alert(newIdArray)
+                
+                 }
+                 newId = newIdArray[Math.floor(Math.random() * newIdArray.length)];
+            }
+        }
+            }
+        }
+        if(newIdArray.length === 0){
+            newFound = true;
+        }
+    //}
+    
+//}
+   // alert(randId);
+}
+    /*function makeRandomMove(color, grid){
+        let notDone = true;
+    while(notDone){
+        alert("2");
         let difColor = true;
         let randId = Math.floor(Math.random() * 64);
         let piece;
@@ -971,22 +1104,46 @@
                 }
             }
         }
-       let notMove = true;
-        let nextId = Math.floor(Math.random() * 64);
+        
+        let idArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
+        let notMove = true;
+        let nextId = idArray[Math.floor(Math.random() * idArray.length)];
+        
         while(notMove){
         for(let i = 0; i < grid.length; i++){
                 for(let x = 0; x < grid[i].length; x++){
                     if(grid[i][x][1] === nextId){  
                                
                             if(grid[i][x][1] !== randId){
-                            if(checkLegalMove(randId, grid[i][x][1], piece, grid, true) && !futureCheck(randId, grid[i][x][1], piece, grid)){
-                               makeMove(randId, grid[i][x][1], piece);
-                                whiteTurn = !whiteTurn
+                               // alert("k");
+                            if(checkLegalMove(randId, nextId, piece, grid, true)){
+                               //alert("ok");
                                 notMove = false;
+                                notDone = false;
+
+                                makeMove(randId, nextId, piece);
+                                whiteTurn = !whiteTurn
+                                break;
+                                
                             }
                                 else{
-                                     nextId = Math.floor(Math.random() * 64);
-                                     break;
+                                     
+                                     for(let z = 0; z < idArray.length; z++){
+                                        if(idArray[z] === nextId){
+                                            if(z === 0){
+                                                idArray.splice(0, 1);
+                                            }
+                                            else{
+                                                idArray.splice(z, z);
+                                            }
+                                          
+                                        }
+
+                                     }
+
+                                     nextId = idArray[Math.floor(Math.random() * idArray.length)];
+                                     alert("n" + nextId);
+                                     console.log(idArray);
                                 }
                             
                         }
@@ -996,8 +1153,18 @@
                     
                 }
             }
+            if(idArray.length === 0){
+                alert("1");
+                break;
+                notMove = false;
+            }
+            if(idArray.length === 1){
+                alert("at 1");
+               
+            }
         }
     }
+} */
     
     </script>
     </body>
