@@ -101,12 +101,12 @@
                 }
                 var img = document.createElement("img");
                 if(chessGrid[i][x][2] == 'wq'){     
-                         img.src = "wq.png";
+                         img.src =  "wq.png";
                          img.classList.add("chess");
                     }
                     else if(chessGrid[i][x][2] == 'wp'){
                          var img = document.createElement("img");
-                         img.src ="wp.png";
+                         img.src = "wp.png";
                          img.classList.add("chess_pawn");  
                     }
                     else if(chessGrid[i][x][2] == 'wki'){
@@ -349,8 +349,9 @@
                      makeRandomMove("b", chessGrid);
                         }
                     }
-                      allLegalMoves(chessGrid);
+                    allLegalMoves(chessGrid);
                 }
+               
             }
                 currPiece = '';
                 let color;
@@ -512,8 +513,9 @@
                     if(((prevId === prevMove[1] + 1) || prevId === prevMove[1] - 1) && Math.abs(cP - prevMove[3]) !== 7){
                       
                        if(newId === prevMove[1] + 8){
-                        if(wantToMove){
+                       
                          legal = true;
+                         if(wantToMove){
                          deletePiece(prevMove[1]);
                         }
                        }
@@ -590,8 +592,9 @@
                        
                         
                        if(newId === prevMove[1] - 8){
-                        if(wantToMove){
+                        
                          legal = true;
+                         if(wantToMove){
                          deletePiece(prevMove[1]);
                         }
                        }
