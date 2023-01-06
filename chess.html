@@ -1148,6 +1148,7 @@ console.log(chessGrid);
                 else{
                      if(grid[i][x][3].length !== 0){
                         let randPos = grid[i][x][3][Math.floor(Math.random() * grid[i][x][3].length)];
+                        prevMove = [grid[i][x][1], randPos, grid[i][x][2], x];
                         makeMove(grid[i][x][1], randPos, grid[i][x][2]);
                         done = true;
                         whiteTurn = !whiteTurn;
