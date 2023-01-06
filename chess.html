@@ -31,7 +31,7 @@
         let prevMove;
         let bCheck = false;
         let wCheck = false;
-      
+        let castled = false;
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         let ai;
@@ -106,12 +106,12 @@
                     }
                     else if(chessGrid[i][x][2] == 'wp'){
                          var img = document.createElement("img");
-                         img.src = "wp.png";
+                         img.src =  "wp.png";
                          img.classList.add("chess_pawn");  
                     }
                     else if(chessGrid[i][x][2] == 'wki'){
                          var img = document.createElement("img");
-                         img.src =  "wki.png";
+                         img.src = "wki.png";
                          img.classList.add("chess");  
                     }
                     else if(chessGrid[i][x][2] == 'wb'){
@@ -314,7 +314,8 @@
                 if(move && checkLegalMove(prev, parseInt(e), currPiece, chessGrid, false, true)){
                 
                  makeMove(prev, parseInt(e), currPiece);
-                 
+                
+               
                  if(currPiece === 'wr' && prev === 63){
                     rook63Moved = true;
                  }
@@ -347,6 +348,7 @@
                     if(!whiteTurn){
                         if(ai){
                      makeRandomMove("b", chessGrid);
+                     
                         }
                     }
                     allLegalMoves(chessGrid);
@@ -523,6 +525,7 @@
                     }
                     
                 }
+                
               }
             }
               
@@ -598,6 +601,7 @@
                          if(wantToMove){
                          deletePiece(prevMove[1]);
                         }
+                       
                        }
                     
                     }
@@ -629,7 +633,9 @@
                                
                         makeMove(60, 62, 'wki');
                         makeMove(63, 61, 'wr');
+                        castled = true;
                             }
+                            return true;
                         }
                     }
                 }
@@ -641,7 +647,9 @@
                             if(wantToMove){
                         makeMove(60, 58, 'wki');
                         makeMove(56, 59, 'wr');
+                        castled = true;
                             }
+                            return true;
                         }
                     }
                 }
@@ -657,7 +665,9 @@
                             if(wantToMove){
                         makeMove(4, 6, 'bki');
                         makeMove(7, 5, 'br');
+                        castled = true;
                             }
+                            return true;
                         }
                     }
                 }
@@ -669,7 +679,9 @@
                             if(wantToMove){
                         makeMove(4, 2, 'bki');
                         makeMove(0, 3, 'br');
+                        castled = true;
                             }
+                             return true;
                         }
                     }
                 }
@@ -744,7 +756,10 @@
                             if(wantToMove){
                         makeMove(60, 62, 'wki');
                         makeMove(63, 61, 'wr');
+                        castled = true;
                             }
+
+                            return false;
                         }
                     }
                 }
@@ -756,7 +771,9 @@
                             if(wantToMove){
                         makeMove(60, 58, 'wki');
                         makeMove(56, 59, 'wr');
+                        castled = true;
                             }
+                            return false;
                         }
                     }
                 }
@@ -772,7 +789,9 @@
                             if(wantToMove){
                            makeMove(4, 6, 'bki');
                            makeMove(7, 5, 'br');
+                           castled = true;
                             }
+                            return false;
                            }
                        }
                    }
@@ -784,7 +803,9 @@
                             if(wantToMove){
                            makeMove(4, 2, 'bki');
                            makeMove(0, 3, 'br');
+                            castled = true;
                             }
+                            return false;
                            }
                        }
                    }
@@ -973,6 +994,8 @@
      }
     
        function makeMove(prevId, newId, piece){
+        if(!castled){
+        
         
         let white = false;
         if(piece.charAt(0) === 'w'){
@@ -998,10 +1021,10 @@
                             }
                             var img = document.createElement("img");
                             if(white){ 
-                                img.src =  piece + ".png";
+                                img.src =   piece + ".png";
                             }
                             else{
-                                img.src =  piece + ".png";
+                                img.src =   piece + ".png";
                             }
                            
                             if(piece === 'bk' || piece === 'wk'){
@@ -1046,7 +1069,10 @@
                 document.getElementById("b").textContent = '';
                 bCheck = false;
             }
-           
+        }
+        else{
+            castled = false;
+        }
        }
        function inCheckMate(color, grid){
             let checkMate = true;
@@ -1150,6 +1176,8 @@ console.log(chessGrid);
                         let randPos = grid[i][x][3][Math.floor(Math.random() * grid[i][x][3].length)];
                         prevMove = [grid[i][x][1], randPos, grid[i][x][2], x];
                         makeMove(grid[i][x][1], randPos, grid[i][x][2]);
+                        
+                       // alert(prevMove);
                         done = true;
                         whiteTurn = !whiteTurn;
                      }
