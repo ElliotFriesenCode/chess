@@ -101,7 +101,7 @@
                 }
                 var img = document.createElement("img");
                 if(chessGrid[i][x][2] == 'wq'){     
-                         img.src =  "wq.png";
+                         img.src = "wq.png";
                          img.classList.add("chess");
                     }
                     else if(chessGrid[i][x][2] == 'wp'){
@@ -111,7 +111,7 @@
                     }
                     else if(chessGrid[i][x][2] == 'wki'){
                          var img = document.createElement("img");
-                         img.src = "wki.png";
+                         img.src =  "wki.png";
                          img.classList.add("chess");  
                     }
                     else if(chessGrid[i][x][2] == 'wb'){
@@ -130,7 +130,7 @@
                          img.classList.add("chess");  
                     }
                     else  if(chessGrid[i][x][2] == 'bq'){     
-                         img.src = "bq.png";
+                         img.src = "chess_pieces/black/"+"bq.png";
                          img.classList.add("chess");
                     }
                     else if(chessGrid[i][x][2] == 'bp'){
@@ -440,6 +440,7 @@
         let queenLegal2 = true;
         if(p === 'pawn'){
             if(!white){
+                
                if(prevId > newId){
                
                 legal = false;
@@ -605,6 +606,9 @@
               }
             }
             }
+            if(cN === 7 && cP === 0){
+                legal = false;
+            }
         }
         else if(p === 'king'){
            
@@ -622,6 +626,7 @@
                     if(grid[rN][cN - 1][2] === '' && grid[rN][cN - 2][2] === ''){
                         if(!king60Moved && !rook63Moved){
                             if(wantToMove){
+                               
                         makeMove(60, 62, 'wki');
                         makeMove(63, 61, 'wr');
                             }
