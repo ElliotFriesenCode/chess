@@ -4,9 +4,9 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
+ 
     </head>
-
+ 
     <body>
         <div class="main">
             <div class="center-holder">
@@ -18,27 +18,34 @@
                     <select name="ai" id="ai">
                       <option value="1">AI On</option>
                       <option value="0">AI Off</option>
-                      
+                     
                     </select>
                     <select name="move" id="m">
-                        <option value="m1">Show Moves On</option>
-                        <option value="m0">Show Moves Off</option>
-                        
+                        <option value="m1">Possible Moves On</option>
+                        <option value="m0">Possbile Moves Off</option>
+                       
+                      </select>
+                      <select name="moveo" id="mo">
+                        <option value="m1">Past Moves On</option>
+                        <option value="m0">Past Moves Off</option>
+                       
                       </select>
                       <h3 id="begin" onclick="navigate()">Begin</h3>
                 </div>
                 <div class="three">
-                  
+                 
                 </div>
-
+ 
             </div>
         </div>
         <script>
             function navigate(){
                 let ai = document.getElementById("ai").value;
                 let move = document.getElementById("m").value;
+                let moveo = document.getElementById("mo").value;
                 let a;
                 let m;
+                let mo;
                 if(ai === "1"){
                     a = true;
                 }
@@ -52,7 +59,13 @@
                 else{
                     m = false;
                 }
-                window.location.href = "./chess.html?ai=" + a + "&sm=" + m;
+                if(moveo === "m1"){
+                    mo = true;
+                }
+                else{
+                    mo = false;
+                }
+                window.location.href = "./chess.html?ai=" + a + "&sm=" + m + "&mo=" + mo;
             }
         </script>
         </body>
