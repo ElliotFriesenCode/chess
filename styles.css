@@ -51,7 +51,7 @@ h1{
 }
 #w{
     color: var(--white);
-    
+   
 }
 .center-holder{
     width: 40vw;
@@ -66,7 +66,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color: var(--bg-color);
-
+ 
 }
 #title{
     font-size: 30px;
@@ -81,7 +81,7 @@ background-color: var(--bg-color);
     border: 2px solid var(--black);
     text-align: center;
     border: 2px solid var(--black);
-  
+ 
 }
 .one{
     height: 15%;
@@ -93,7 +93,7 @@ background-color: var(--bg-color);
 }
 #ai{
     width: 300px;
-    height: 50px;
+    height: 40px;
     background-color: rgb(235, 218, 150);
     font-size: 25px;
     border-radius: 10px;
@@ -104,18 +104,29 @@ background-color: var(--bg-color);
     background-color: white;
 }
 #m:hover{
-    background-color: white;;
+    background-color: white;
 }
 #m{
     margin-top: 25px;
     width: 300px;
-    height: 50px;
+    height: 40px;
     background-color: rgb(235, 218, 150);
     font-size: 25px;
     border-radius: 10px;
     color: var(--black);
     border: 2px solid var(--black);
-
+ 
+}
+#mo{
+    margin-top: 25px;
+    width: 300px;
+    height: 40px;
+    background-color: rgb(235, 218, 150);
+    font-size: 25px;
+    border-radius: 10px;
+    color: var(--black);
+    border: 2px solid var(--black);
+ 
 }
 #begin:hover{
     cursor: pointer;
@@ -128,13 +139,13 @@ background-color: var(--bg-color);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+   
 }
-
+ 
 .two-o{
     width: 70%;
     height: 100%;
-    
+   
 }
 .two-t{
     width: 30%;
@@ -148,7 +159,7 @@ background-color: var(--bg-color);
     justify-content: center;
     align-items: center;
 }
-
+ 
 .box-selected{
     width: calc(50vw/8);
     height: calc(95vh/8);
@@ -157,26 +168,16 @@ background-color: var(--bg-color);
     justify-content: center;
     align-items: center;
 }
-.box-possible{
-    width: calc(50vw/8);
-    height: calc(95vh/8);
-    background-color: rgb(222, 152, 231);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: 1px solid black;
-   
-   
-}
+
 .box-black{
-    
+   
     width: calc(50vw/8);
     height: calc(95vh/8);
     background-color: var(--black);
     display: flex;
     justify-content: center;
     align-items: center ;
-    
+   
 }
 .box:hover{
     background-color: wheat;
@@ -185,6 +186,33 @@ background-color: var(--bg-color);
     width: calc(50vw/8);
     height: calc(95vh/8);
     background-color: rgb(196, 193, 193);
+}
+.box-prev{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: rgb(236, 236, 158);
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+.box-circle{
+    width: calc(50vw/20);
+    height: calc(95vh/20);
+    background-color: rgb(197, 151, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10;
+
+   
+}
+.box-prev1{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: rgb(235, 235, 113);
+    display: flex;
+    justify-content: center;
+    align-items: center ;
 }
 .chess{
     width: calc(50vw/9);
@@ -201,4 +229,29 @@ background-color: var(--bg-color);
 .chess_bishop{
     width: calc(50vw/11);
     height: calc(50vw/11);
+}
+ 
+
+.box-possible{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: rgb(98, 137, 95)  !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+   
+   
+}
+
+.box-possibleB{
+    width: calc(50vw/8);
+    height: calc(95vh/8);
+    background-color: rgb(80, 122, 76)  !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+   
+   
 }
