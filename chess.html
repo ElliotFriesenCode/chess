@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <link rel="stylesheet" href="styles.css">
@@ -36,6 +37,7 @@
         const urlParams = new URLSearchParams(queryString);
         let ai;
         let sm;
+        let mo;
         if(urlParams.get('ai') === "true"){
             ai = true;
         }
@@ -47,6 +49,12 @@
     }
     else{
         sm = false;
+    }
+    if(urlParams.get('mo') === "true"){
+        mo = true;
+    }
+    else{
+        mo = false;
     }
         let chessGrid = [[['w', 0, 'br', []], ['b', 1, 'bk', []], ['w', 2, 'bb', []], ['b', 3, 'bq', []], ['w', 4, 'bki', []], ['b', 5, 'bb', []], ['w', 6, 'bk', []], ['b', 7, 'br', []]],
                          [['b', 8, 'bp', []], ['w', 9, 'bp', []], ['b', 10, 'bp', []], ['w', 11, 'bp', []], ['b', 12, 'bp', []], ['w', 13, 'bp'], ['b', 14, 'bp', []], ['w', 15, 'bp', []]],
@@ -84,6 +92,7 @@
     }
         createGrid();
         allLegalMoves(chessGrid);
+       
        // alert(chessGrid[1][1][3][1]);
         function createGrid(){
             document.getElementById("holder").style.setProperty("--grid-count", rowCount);
@@ -281,10 +290,16 @@
                 for(let i = 0; i < chessGrid.length; i++){
                       for(let x = 0; x < chessGrid[i].length; x++){
                     if(chessGrid[i][x][1] === idArray[z]){
+                        if(chessGrid[i][x][0] === "w"){
                         document.getElementById(idArray[z]).classList.add("box-possible");
+                        }
+                        else{
+                            document.getElementById(idArray[z]).classList.add("box-possibleB");
+                        }
                         document.getElementById(idArray[z]).classList.remove("box");
                         document.getElementById(idArray[z]).classList.remove("box-black");
-                        document.getElementById(idArray[z]).classList.remove("box-white");
+                        document.getElementById(idArray[z]).classList.remove("box-prev");
+                      
                     }
                 }
             }
@@ -347,7 +362,7 @@
                  whiteTurn = !whiteTurn;
                     if(!whiteTurn){
                         if(ai){
-                     makeRandomMove("b", chessGrid);
+                            setTimeout(() => {  makeRandomMove("b", chessGrid);   allLegalMoves(chessGrid);}, 250);  
                      
                         }
                     }
@@ -370,6 +385,7 @@
                       for(let x = 0; x < chessGrid[i].length; x++){
                         if(sm){
                         document.getElementById(chessGrid[i][x][1]).classList.remove("box-possible");
+                        document.getElementById(chessGrid[i][x][1]).classList.remove("box-possibleB");
                         }
                          if(chessGrid[i][x][0] === 'w'){
                     document.getElementById(chessGrid[i][x][1]).classList.add("box-white");
@@ -379,6 +395,7 @@
                 }
                       }
                     }
+                    
                 document.getElementById(prev).classList.remove("box-selected");
                 if(color === 'w'){
                     document.getElementById(prev).classList.add("box-white");
@@ -452,7 +469,9 @@
                     if(newId - prevId !== 7 && newId - prevId !== 9){
                         legal = false;
                     }
+                    
                     if((cP === 0 && cN === 7) || (cN === 0 && cP === 7)){
+                        
                         legal = false;
                     }
                 }
@@ -537,6 +556,9 @@
                 if((prevId - newId) % 8 !== 0){
                     if(piece2 !== ''){
                     if(prevId - newId !== 7 && prevId - newId !== 9){
+                        legal = false;
+                    }
+                    if((cP === 0 && cN === 7) || (cN === 0 && cP === 7)){
                         legal = false;
                     }
                 }
@@ -996,6 +1018,7 @@
        function makeMove(prevId, newId, piece){
         if(!castled){
         
+        hlPrev(prevId, newId);
         
         let white = false;
         if(piece.charAt(0) === 'w'){
@@ -1043,6 +1066,17 @@
                     }
                 }
             }
+            if(piece === 'wp'){
+            if(newId > -1 && newId < 8){
+                promote(newId, "wq");
+            }
+            }
+            else if(piece === 'bp'){
+            if(newId < 64 && newId > 55){
+                promote(newId, "bq");
+            }
+            }
+            evaluatePosition();
             inCheck('w', chessGrid, false);
             inCheck('b', chessGrid, false);
             if(inCheck('w', chessGrid, false)){
@@ -1069,6 +1103,7 @@
                 document.getElementById("b").textContent = '';
                 bCheck = false;
             }
+
         }
         else{
             castled = false;
@@ -1191,6 +1226,128 @@ console.log(chessGrid);
    
 }
     }
+    function hlPrev(o, n){
+       if(mo){
+        for(let i = 0; i < chessGrid.length; i++){
+        for(let x = 0; x < chessGrid[i].length; x++){
+            if(chessGrid[i][x][1] === o){
+                document.getElementById(chessGrid[i][x][1]).classList.add("box-prev");
+                
+            }
+            else if(chessGrid[i][x][1] === n){
+                document.getElementById(chessGrid[i][x][1]).classList.add("box-prev1");
+            }
+            else{
+                document.getElementById(chessGrid[i][x][1]).classList.remove("box-prev");
+                document.getElementById(chessGrid[i][x][1]).classList.remove("box-prev1");
+            }
+        }
+    }
+}
+}
+function promote(id, piece){
+    for(let i = 0; i < chessGrid.length; i++){
+        for(let x = 0; x < chessGrid[i].length; x++){
+            if(chessGrid[i][x][1] === id){
+                chessGrid[i][x][2] = piece;
+                document.getElementById(id).removeChild(document.getElementById(id).firstChild);
+                var img = document.createElement("img");
+                img.src =   piece + ".png";
+                img.classList.add("chess");
+                document.getElementById(id).appendChild(img);
+            }
+        }
+    }
+}
+    
+function evaluatePosition(){
+  let positionScore = 0;
+  let piecePoints = countMaterial();
+  positionScore = piecePoints.whiteValue - piecePoints.blackValue;
+  console.log(positionScore);
+    
+}
+function countMaterial(){
+    let pawnValue = 1;
+    let bishopValue = 3;
+    let knightValue = 3;
+    let rookValue = 5;
+    let queenValue = 9;
+    let whiteValue = 0;
+    let blackValue = 0;
+    for(let i = 0; i < chessGrid.length; i++){
+        for(let x = 0; x < chessGrid[i].length; x++){
+            let piece = chessGrid[i][x][2];
+            if(piece === 'wp'){
+                whiteValue += pawnValue;
+            }
+            else if(piece === 'wb'){
+                whiteValue += bishopValue;
+            }
+            else if(piece === 'wk'){
+                whiteValue += knightValue;
+            }
+            else if(piece === 'wr'){
+                whiteValue += rookValue;
+            }
+            else if(piece === 'wq'){
+                whiteValue += queenValue;
+            }
+            else if(piece === 'bp'){
+                blackValue += pawnValue;
+            }
+            else if(piece === 'bb'){
+                blackValue += bishopValue;
+            }
+            else if(piece === 'bk'){
+                blackValue += knightValue;
+            }
+            else if(piece === 'br'){
+                blackValue += rookValue;
+            }
+            else if(piece === 'bq'){
+                blackValue += queenValue;
+            }
+        }
+    }
+    return {whiteValue, blackValue};
+}
+
+function Search(){
+    let depth = 1;
+   
+    while(depth > 0){
+       makeAllMoves('w', chessGrid);
+      // makeAllMoves('b', chessGrid); 
+       depth--;
+    }
+}
+//const timer = ms => new Promise(res => setTimeout(res, ms));
+let depth = 1;
+//Search();
+
+function makeAllMoves(color, grid){
+
+        for(let i = 0; i < grid.length; i++){
+        for(let x = 0; x < grid[i].length; x++){
+          if(grid[i][x][2].charAt(0) === color){
+            for(let z = 0; z < grid[i][x][3].length; z++){
+                let piece = grid[i][x][2];
+                
+                makeMove(grid[i][x][1], grid[i][x][3][z], grid[i][x][2]);
+              
+                makeMove(grid[i][x][3][z], grid[i][x][1], piece);
+              //  depth = 1;
+                }
+                
+            }
+          }
+     }
+     
+    }
+    
+   
+
 /*function makeRandomMove(color, grid){
     // let uidArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63];
      
