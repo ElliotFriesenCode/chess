@@ -1322,11 +1322,11 @@ function Search(){
        depth--;
     }
 }
-//const timer = ms => new Promise(res => setTimeout(res, ms));
+const timer = ms => new Promise(res => setTimeout(res, ms));
 let depth = 1;
-//Search();
+Search();
 
-function makeAllMoves(color, grid){
+async function makeAllMoves(color, grid){
 
         for(let i = 0; i < grid.length; i++){
         for(let x = 0; x < grid[i].length; x++){
@@ -1335,7 +1335,7 @@ function makeAllMoves(color, grid){
                 let piece = grid[i][x][2];
                 
                 makeMove(grid[i][x][1], grid[i][x][3][z], grid[i][x][2]);
-              
+                 await timer(250);
                 makeMove(grid[i][x][3][z], grid[i][x][1], piece);
               //  depth = 1;
                 }
